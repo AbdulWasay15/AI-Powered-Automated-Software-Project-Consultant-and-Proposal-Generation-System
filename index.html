@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Software Project Consultant</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f5f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* Navbar */
+
+.navbar{
+    background:#0d6efd;
+}
+
+.navbar-brand{
+    color:white !important;
+    font-weight:bold;
+    font-size:24px;
+}
+
+/* Hero */
+
+.hero{
+    background:linear-gradient(135deg,#0d6efd,#6f42c1);
+    color:white;
+    padding:70px 20px;
+    text-align:center;
+}
+
+.hero h1{
+    font-weight:700;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+/* Cards */
+
+.main-card{
+    background:white;
+    border:none;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.section-title{
+    color:#0d6efd;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* Proposal Area */
+
+#proposalOutput{
+    min-height:250px;
+    background:#f8f9fa;
+    border-radius:10px;
+    padding:20px;
+    white-space:pre-wrap;
+}
+
+/* Chatbot */
+
+.chat-icon{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    width:65px;
+    height:65px;
+    background:#0d6efd;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+    z-index:9999;
+}
+
+.chat-container{
+    position:fixed;
+    right:25px;
+    bottom:100px;
+    width:350px;
+    height:500px;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 5px 25px rgba(0,0,0,.2);
+    display:none;
+    flex-direction:column;
+    overflow:hidden;
+    z-index:9999;
+}
+
+.chat-header{
+    background:#0d6efd;
+    color:white;
+    padding:15px;
+    font-weight:bold;
+}
+
+.chat-body{
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
+    background:#f8f9fa;
+}
+
+.chat-message{
+    margin-bottom:10px;
+}
+
+.user{
+    text-align:right;
+}
+
+.user span{
+    background:#0d6efd;
+    color:white;
+    padding:8px 12px;
+    border-radius:15px;
+    display:inline-block;
+}
+
+.bot span{
+    background:#e9ecef;
+    padding:8px 12px;
+    border-radius:15px;
+    display:inline-block;
+}
+
+.chat-footer{
+    padding:10px;
+    border-top:1px solid #ddd;
+}
+
+.footer{
+    background:#212529;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:50px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg">
+<div class="container">
+<a class="navbar-brand" href="#">
+AI Project Consultant
+</a>
+</div>
+</nav>
+
+<!-- Hero -->
+
+<section class="hero">
+<div class="container">
+<h1>AI-Powered Software Project Consultant</h1>
+<p>
+Get instant project consultation and automatically generate
+professional software project proposals using AI.
+</p>
+</div>
+</section>
+
+<!-- Main Section -->
+
+<div class="container my-5">
+
+<div class="row">
+
+<!-- Form -->
+
+<div class="col-lg-6 mb-4">
+
+<div class="card main-card p-4">
+
+<h3 class="section-title">
+Project Requirements
+</h3>
+
+<form id="projectForm">
+
+<div class="mb-3">
+<label class="form-label">Client Name</label>
+<input type="text" class="form-control" id="clientName">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Project Name</label>
+<input type="text" class="form-control" id="projectName">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Project Type</label>
+<select class="form-select" id="projectType">
+<option>Web Application</option>
+<option>Mobile App</option>
+<option>Desktop Software</option>
+<option>AI System</option>
+<option>E-Commerce Website</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Budget</label>
+<input type="text" class="form-control" id="budget">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Timeline</label>
+<input type="text" class="form-control" id="timeline">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Required Features</label>
+<textarea class="form-control" rows="4" id="features"></textarea>
+</div>
+
+<button
+type="button"
+class="btn btn-primary w-100"
+onclick="generateProposal()">
+Generate Proposal
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- Proposal -->
+
+<div class="col-lg-6">
+
+<div class="card main-card p-4">
+
+<h3 class="section-title">
+Generated Proposal
+</h3>
+
+<div id="proposalOutput">
+Proposal will appear here...
+</div>
+
+<div id="pdfDownloadArea" class="mt-3 text-center">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Chat Icon -->
+
+<div class="chat-icon" onclick="toggleChat()">
+<i class="fas fa-comments"></i>
+</div>
+
+<!-- Chatbot -->
+
+<div class="chat-container" id="chatBox">
+
+<div class="chat-header d-flex justify-content-between align-items-center">
+
+<span>AI Project Consultant</span>
+
+<button
+class="btn btn-sm btn-light"
+onclick="clearChat()">
+Clear Chat
+</button>
+
+</div>
+
+<div class="chat-body" id="chatMessages">
+
+<div class="chat-message bot">
+<span>
+Hello! I can help gather project requirements and guide you.
+</span>
+</div>
+
+</div>
+
+<div class="chat-footer">
+
+<div class="input-group">
+
+<input
+type="text"
+class="form-control"
+id="userInput"
+placeholder="Type message...">
+
+<button
+class="btn btn-primary"
+onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="footer">
+© 2026 AI Software Project Consultant
+</div>
+
+<script>
+
+function toggleChat(){
+
+let chat=document.getElementById("chatBox");
+
+if(chat.style.display==="flex"){
+chat.style.display="none";
+}
+else{
+chat.style.display="flex";
+}
+
+}
+
+function clearChat(){
+  try{
+    fetch('/clear_chat',{ method:'POST' });
+    document.getElementById("chatMessages").innerHTML = `
+    <div class="chat-message bot">
+      <span>Hello! 👋 I am your AI Software Project Consultant. Let's start a new project discussion.</span>
+    </div>
+    `;
+  } catch(error){ console.log(error); }
+}
+
+function sendMessage(){
+
+let input=document.getElementById("userInput");
+let message=input.value.trim();
+
+if(message==="") return;
+
+let chat=document.getElementById("chatMessages");
+
+chat.innerHTML += `
+<div class="chat-message user">
+<span>${message}</span>
+</div>
+`;
+
+input.value="";
+
+fetch('/chat',{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+message:message
+})
+})
+.then(res=>res.json())
+.then(data=>{
+
+chat.innerHTML += `
+<div class="chat-message bot">
+<span>${data.reply}</span>
+</div>
+`;
+
+chat.scrollTop=chat.scrollHeight;
+
+})
+.catch(err=>{
+console.log(err);
+});
+
+}
+
+function generateProposal(){
+
+let data={
+client_name:document.getElementById("clientName").value,
+project_name:document.getElementById("projectName").value,
+project_type:document.getElementById("projectType").value,
+budget:document.getElementById("budget").value,
+timeline:document.getElementById("timeline").value,
+features:document.getElementById("features").value
+};
+
+document.getElementById("proposalOutput").innerHTML =
+"Generating proposal...";
+
+fetch('/generate_proposal',{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("proposalOutput").innerHTML =
+data.proposal;
+
+})
+.catch(error=>{
+
+document.getElementById("proposalOutput").innerHTML =
+"Error generating proposal.";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
